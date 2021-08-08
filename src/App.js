@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import About from './page/About';
+import Navbar from './page/components/Navbar';
+import Home from './page/Home';
+import { useState } from 'react';
+import { CartContext } from './page/components/CartContext';
 
 function App() {
+  const [value, setValue] = useState(0);
+
+  const plusButton = () => {
+    setValue(value + 1);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <CartContext.Provider value={{ value, setValue, plusButton }}>
+          <Navbar />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/about" component={About} />
+          </Switch>
+        </CartContext.Provider>
+      </Router>
+    </>
   );
 }
 
